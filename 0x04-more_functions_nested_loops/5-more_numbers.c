@@ -11,6 +11,7 @@
 void more_numbers(void)
 
 {
+<<<<<<< HEAD
 
 		int i, ch;
 
@@ -36,4 +37,18 @@ void more_numbers(void)
 
 											}
 
+=======
+	int i, ch;
+
+	for (i = 0; i < 10; i++)
+	{
+		for (ch = 0; ch < 15; ch++)
+		{
+			if (ch >= 10)
+				_putchar((ch / 10) + 48);
+			_putchar((ch % 10) + 48);
+		}
+		_putchar('\n');
+	}
+>>>>>>> ab53bfe65d7b39d0fefa5be54c3cb3704822cc38
 }
