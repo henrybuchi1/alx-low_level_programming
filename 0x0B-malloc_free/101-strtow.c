@@ -1,113 +1,77 @@
-#include "holberton.h"
-
 #include <stdlib.h>
-
-#include <string.h>
+#include "main.h"
 
 /**
-
- * strtow - splits a string to words
-
- * @str: string to split *
-
- * Return: a point to an array of strings or NULL
-
+ * count_word - helper function to count the number of words in a string
+ * @s: string to evaluate
+ *
+ * Return: number of words
  */
+int count_word(char *s)
+{
+	int flag, c, w;
 
+	flag = 0;
+	w = 0;
+
+	for (c = 0; s[c] != '\0'; c++)
+	{
+		if (s[c] == ' ')
+			flag = 0;
+		else if (flag == 0)
+		{
+			flag = 1;
+			w++;
+		}
+	}
+
+	return (w);
+}
+/**
+ * **strtow - splits a string into words
+ * @str: string to split
+ *
+ * Return: pointer to an array of strings (Success)
+ * or NULL (Error)
+ */
 char **strtow(char *str)
-
 {
+	char **matrix, *tmp;
+	int i, k = 0, len = 0, words, c = 0, start, end;
 
-char **arr_words = NULL;
+	while (*(str + len))
+		len++;
+	words = count_word(str);
+	if (words == 0)
+		return (NULL);
 
-int i, j, maxlen, wlen = 0, slen, words = 0, sig = 0, pre_sig = 0;
+	matrix = (char **) malloc(sizeof(char *) * (words + 1));
+	if (matrix == NULL)
+		return (NULL);
 
+	for (i = 0; i <= len; i++)
+	{
+		if (str[i] == ' ' || str[i] == '\0')
+		{
+			if (c)
+			{
+				end = i;
+				tmp = (char *) malloc(sizeof(char) * (c + 1));
+				if (tmp == NULL)
+					return (NULL);
+				while (start < end)
+					*tmp++ = str[start++];
+				*tmp = '\0';
+				matrix[k] = tmp - c;
+				k++;
+				c = 0;
+			}
+		}
+		else if (c++ == 0)
+			start = i;
+	}
 
+	matrix[k] = NULL;
 
-if (str == NULL || str == "")
-
-return (NULL);
-
-slen = strlen(str);
-
-for (i = 0; i < slen; i++)
-
-{
-
-sig = (str[i] == 32 || str[i] == "\t") ? 0 : 1;
-
-words = (pre_sig == 0 && sig == 1) ? words + 1 : words;
-
-if (wlen > 0 && sig == 0)
-
-maxlen = (wlen > maxlen) ? wlen : maxlen;
-
-wlen = (sig) ? wlen + 1 : 0;
-
-pre_sig = sig;
-
-}
-
-if (words == 0)
-
-return (NULL);
-
-arr_words = (char **)malloc(words * sizeof(char *));
-
-if (arr_words == NULL)
-
-{
-
-free(arr_words);
-
-return (NULL);
-
-}
-
-for (i = 0; i < words; i++)
-
-{
-
-arr_words[i]=(char *)malloc((maxlen + 1) * sizeof(char));
-
-if (arr_words[i] == NULL)
-
-{
-
-for (j = 0; j < i; j++)
-
-free(arr_words[j]);
-
-free(arr_words);
-
-return (NULL);
-
-}
-
-}
-
-wlen = 0;
-
-words = 0;
-
-for (i = 0; i < slen; i++)
-
-{
-
-sig = (str[i] == 32 || str[i] == 9) ? 0 : 1;
-
-words = (pre_sig == 0 && sig == 1) ? words + 1 : words;
-
-if (sig)
-
-arr_words[words][wlen] = str[i];
-
-wlen = (sig) ? wlen + 1 : 0;
-
-pre_sig = sig;
-
-}
-
-return (arr_words);
-
+	return (matrix);
 }
