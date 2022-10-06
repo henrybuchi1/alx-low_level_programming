@@ -1,69 +1,49 @@
-#include "holberton.h"
-#include <stdio.h>
+#include "main.h"
 #include <stdlib.h>
 
 /**
- * *_memcpy - copies memory area
- *@dest: destination to copy
- *@src: source pointer
- *@n: number of bytes to coppy
- *Return: dest (destination)
- */
-char *_memcpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int i;
-
-	for (i = 0; i < n; i++)
-	{
-		dest[i] = src[i];
-	}
-	return (dest);
-}
-
-/**
- * *_realloc - reallocate a memory block using malloc and free
- *@ptr: ponter to realloc
- *@old_size: old size of the memory
- *@new_size: new size of the memory
- *Return: pointer reallocared or NULL
+ * _realloc - A function that reallocates a memory block using malloc and free
+ * @ptr: points to the memory previously allocated
+ * @old_size: old size  allocated (byts)
+ * @new_size: new size allocated (byts)
+ * Return: void pointer to new memory location
  */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	char *rp;
+	char *ptr1;
+	char *old_ptr;
 	unsigned int i;
-
-	if (ptr == NULL)
-	{
-		rp = malloc(new_size);
-		if (rp == NULL)
-		{
-			free(ptr);
-			return (NULL);
-		}
-		free(ptr);
-		return (rp);
-	}
 
 	if (new_size == old_size)
 		return (ptr);
 
-	if (new_size == 0 && ptr != NULL)
+	if (new_size == 0 && ptr)
 	{
 		free(ptr);
 		return (NULL);
 	}
 
-	rp = malloc(new_size);
+	if (!ptr)
+		return (malloc(new_size));
 
-	if (rp == NULL)
-	{
-		free(ptr);
+	ptr1 = malloc(new_size);
+	if (!ptr1)
 		return (NULL);
+
+	old_ptr = ptr;
+
+	if (new_size < old_size)
+	{
+		for (i = 0; i < new_size; i++)
+			ptr1[i] = old_ptr[i];
 	}
 
 	if (new_size > old_size)
-		_memcpy(rp, ptr, old_size);
-	free(ptr);
+	{
+		for (i = 0; i < old_size; i++)
+			ptr1[i] = old_ptr[i];
+	}
 
-	return (rp);
+	free(ptr);
+	return (ptr1);
 }
