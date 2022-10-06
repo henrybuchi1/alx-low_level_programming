@@ -1,58 +1,44 @@
-#include "holberton.h"
-#include <stdio.h>
+#include "main.h"
 #include <stdlib.h>
-/**
- * _strlen - returns the lenght of a string
- *@s: poiter of character
- *Return: the length of a string
- */
-int _strlen(char *s)
-{
-	unsigned int len;
 
-	len = 0;
-	while (*(s + len) != '\0')
-		len++;
-	return (len);
-}
 /**
- * *string_nconcat - concatenates two strings
- *@s1: first string to concatenate
- *@s2: second string to concatenate
- *@n: number of bytes to concatenate
- *Return: the pointer concatenate or null
+ * string_nconcat - A function that concatenates two strings
+ * @s1: An input pointer of the first string
+ * @s2: An input pointer of the second string
+ * @n: an input integer of number of string to concatenate
+ * Return: Apointer to concatened strings or NULL if it str is NULL
  */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	unsigned int l1, i, j;
-	char *str;
+	char *muhammad_ibrahim;
+	unsigned int i = 0, lens1 = 0, lens2 = 0;
 
-	/**verify if s1 or s2 is null*/
 	if (s1 == NULL)
 		s1 = "";
+
+	while (s1[lens1])
+		lens1++;
+
 	if (s2 == NULL)
 		s2 = "";
 
-	/**calculate the lenght of the strings*/
-	l1 = _strlen(s1);
+	while (s2[lens2])
+		lens2++;
 
-	/**asign the memorty to the pointer*/
-	str = malloc((l1 + (n * sizeof(*s2) + 1)) * sizeof(*str));
+	if (n >= lens2)
+		n = lens2;
 
-	/**Verify if the memory is avaiable*/
-	if (str == NULL)
+	muhammad_ibrahim = malloc(lens1 + n + 1);
+	if (muhammad_ibrahim == NULL)
 		return (NULL);
 
-	/**Concatenate the string*/
-	for (i = 0; s1[i] != '\0'; i++)
+	for (; i < (lens1 + n); i++)
 	{
-		str[i] = s1[i];
+		if (i < lens1)
+			muhammad_ibrahim[i] = *s1, s1++;
+		else
+			muhammad_ibrahim[i] = *s2, s2++;
 	}
-
-	for (j = 0; s2[j] != '\0' && j < n; j++, i++)
-	{
-		str[i] = s2[j];
-	}
-	str[i] = '\0';
-	return (str);
+	muhammad_ibrahim[i] = '\0';
+	return (muhammad_ibrahim);
 }
